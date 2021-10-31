@@ -1,0 +1,177 @@
+package com.anand;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.Buffer;
+import java.util.Arrays;
+
+public class Map {
+
+    //TODO is final appropriate - may need to change
+    //private final String[][] mapArray = new String[33][30];
+    private String[][] mapArray;
+    private int rows;
+    private int columns;
+    private String src;
+
+    /** The width in grid cells of our map */
+    public static final int WIDTH = 32;
+    /** The height in grid cells of our map */
+    public static final int HEIGHT = 32;
+    public static final int TileSize = Main.screenHeight/HEIGHT - 3;
+
+    //constructor for the map, reads in map as an array from the csv file containing the map layout
+    public Map(int rows, int columns, String src) {
+        //old code - now in initMap() - too scared to delete it yet!
+        /*String pathToMap = "src/main/resources/PacmanMap.csv";
+        String line;
+        String[] row;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(pathToMap));
+            int j = 0;
+            while ((line = br.readLine()) != null) {
+                row = line.split(",");
+                System.arraycopy(row, 0, mapArray[j], 0, 30);
+                System.out.println(Arrays.toString(mapArray[j]));
+                if (j == 32) j = 0;
+                else j++;
+            }
+
+        }  catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        //new code
+        this.rows = rows;
+        this.columns = columns;
+        this.src = src;
+        this.mapArray = initMap(this.rows, this.columns, this.src);
+    }
+
+    //TODO: Add methods
+
+    //initialise the map. Call in constructor to set the map array, as it needs to be done to create the map
+    public String[][] initMap(int rows, int columns, String src){
+        String[][] mapArray = new String[rows][columns];
+        String line;
+        String[] row;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(src));
+            int j = 0;
+            while ((line = br.readLine()) != null) {
+                row = line.split(",");
+                System.arraycopy(row, 0, mapArray[j], 0, columns);
+                //System.out.println(Arrays.toString(mapArray[j]));
+                if (j == rows-1) j = 0;
+                else j++;
+            }
+
+        }  catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return mapArray;
+    }
+
+    //returns whether a tile is blocked
+    public boolean blocked(int row, int column){
+        //return any of the different wall types
+        return (
+                mapArray[row][column].equals("TL")
+                        || mapArray[row][column].equals("TR")
+                        || mapArray[row][column].equals("HW")
+                        || mapArray[row][column].equals("VW")
+                        || mapArray[row][column].equals("BR")
+                        || mapArray[row][column].equals("BL")
+        );
+    }
+    //returns if a tile is an intersection tile
+    public boolean intersection(int row, int column){
+        //return any of the different wall types
+        return (
+                mapArray[row][column].equals("II")
+                        || mapArray[row][column].equals("IP")
+                        || mapArray[row][column].equals("IE")
+        );
+    }
+
+    //getters and setters
+    public String getTile(int row, int column){
+        return mapArray[row][column];
+    }
+    public void setTile(int row, int column, String value){
+        mapArray[row][column] = value;
+
+    }
+    public String[][] getMapArray(){
+        return this.mapArray;
+    }
+
+    //TODO: paint method for graphics
+    public void paintComponent(Graphics2D g2d){
+        Image icon;
+        Image image;
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                String tile = this.mapArray[i][j];
+                if (tile.equals("TL")){
+                    image = new ImageIcon("src/main/resources/MapImages/top_left.png").getImage()
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+
+                    icon = new ImageIcon(image).getImage();
+                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                }
+                if (tile.equals("BL")){
+                    image = new ImageIcon("src/main/resources/MapImages/bottom_left.png").getImage()
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                    //image = new BufferedImage(icon);
+                    icon = new ImageIcon(image).getImage();
+                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                }
+                else if (tile.equals("TR")){
+                    image = new ImageIcon("src/main/resources/MapImages/top_right.png").getImage()
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                    //image = new BufferedImage(icon);
+                    icon = new ImageIcon(image).getImage();
+                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                }
+                else if (tile.equals("BR")){
+                    image = new ImageIcon("src/main/resources/MapImages/bottom_right.png").getImage()
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                    //image = new BufferedImage(icon);
+                    icon = new ImageIcon(image).getImage();
+                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                }
+                else if (tile.equals("VW")){
+                    image = new ImageIcon("src/main/resources/MapImages/vertical_line.png").getImage()
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                    //image = new BufferedImage(icon);
+                    icon = new ImageIcon(image).getImage();
+                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                }
+                else if (tile.equals("HW")){
+                    image = new ImageIcon("src/main/resources/MapImages/horizontal_line.png").getImage()
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                    //image = new BufferedImage(icon);
+                    icon = new ImageIcon(image).getImage();
+                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                }
+                else if (tile.equals("DD")
+                || tile.equals("II")){
+                    g2d.setColor(Color.white);
+                    int rDot = TileSize/4;
+                    //position the dots to the middle of the maze paths
+                    int dot_pos_x = j * TileSize + (TileSize - rDot)/2;
+                    int dot_pos_y = i * TileSize + (TileSize - rDot)/2;
+                    g2d.drawOval(dot_pos_x, dot_pos_y, rDot, rDot);
+                    g2d.fillOval(dot_pos_x, dot_pos_y, rDot, rDot);
+                }
+
+            }
+
+        }
+    }
+}
