@@ -152,6 +152,13 @@ public class Map {
         );
     }
 
+    public boolean pellet(int row, int column){
+        return mapArray[row][column].equals( "DD") ;
+    }
+    public boolean intersectionPellet(int row, int column){
+        return mapArray[row][column].equals( "II") ;
+    }
+
     //getters and setters
     public String getTile(int row, int column){
         return mapArray[row][column];
