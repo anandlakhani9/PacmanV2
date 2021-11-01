@@ -22,7 +22,7 @@ public class RandomGhost extends Ghost{
         Random rand = new Random();
         int maxIndex = possible.size();
         int index = rand.nextInt(maxIndex);
-        System.out.println(possible);
+        //System.out.println(possible);
         //System.out.println(index);
         return possible.get(index);
     }

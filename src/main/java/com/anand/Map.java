@@ -208,10 +208,10 @@ public class Map {
                     g2d.drawOval(dot_pos_x, dot_pos_y, rDot, rDot);
                     g2d.fillOval(dot_pos_x, dot_pos_y, rDot, rDot);
                 }
-                if (tile.equals("IE") || tile.equals("II") || tile.equals("IP") ){
+                /*if (tile.equals("IE") || tile.equals("II") || tile.equals("IP") ){
                     g2d.setColor(Color.red);
                     g2d.drawRect(j*TileSize, i*TileSize, TileSize, TileSize);
-                }
+                }*/
 
             }
 

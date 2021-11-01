@@ -20,7 +20,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
     private Thread thread;
     private Boolean running = false;
     ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
-    RandomGhost rand = new RandomGhost(26,15,randGhostImage,map,"randomGhost");
+    RandomGhost rand = new RandomGhost(3,15,randGhostImage,map,"randomGhost");
     public static void main(String[] args) {
         new Main();
 
@@ -41,7 +41,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
         frame.setVisible(true);
         frame.setFocusable(true);
         frame.addKeyListener(this);
-        rand.setDx(1);
+        rand.setDx(-1);
         start();
     }
 
@@ -100,7 +100,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
         //get initial system time
         long lastTime = System.nanoTime();
         //this is targeting 100 updates (not frames) per second in nanoseconds
-        final double rate = 100.0 / 1000000000.0 ;
+        final double rate = 250.0 / 1000000000.0 ;
 
         double delta = 0;
 
@@ -135,9 +135,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
                 frame.setTitle("Pacman | FPS: " + fps + " | UPS: " + updates);// + " | Score: " + player.getScore());
                 fps = 0;
                 updates = 0;
-
             }
-
         }
         stop();
     }
