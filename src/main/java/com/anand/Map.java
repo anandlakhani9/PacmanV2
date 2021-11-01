@@ -132,42 +132,42 @@ public class Map {
                 String tile = this.mapArray[i][j];
                 if (tile.equals("TL")){
                     image = new ImageIcon("src/main/resources/MapImages/top_left.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
 
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 if (tile.equals("BL")){
                     image = new ImageIcon("src/main/resources/MapImages/bottom_left.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("TR")){
                     image = new ImageIcon("src/main/resources/MapImages/top_right.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("BR")){
                     image = new ImageIcon("src/main/resources/MapImages/bottom_right.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("VW")){
                     image = new ImageIcon("src/main/resources/MapImages/vertical_line.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("HW")){
                     image = new ImageIcon("src/main/resources/MapImages/horizontal_line.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
