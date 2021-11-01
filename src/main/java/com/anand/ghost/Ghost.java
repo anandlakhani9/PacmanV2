@@ -17,7 +17,7 @@ public abstract class Ghost {
     // y corresponds to row
     private int y;
     private ImageIcon image;
-    Image img;
+    private Image img;
     private Map map;
     private String name;
     private int dx, dy;
@@ -25,8 +25,6 @@ public abstract class Ghost {
 
     private int oldX, oldY;
 
-    //order up, down, left right
-    //true if move possible, therefore if (allowedMoves[0]){} will execute if you can move up
     private ArrayList<Directions> allowedMoves = new ArrayList();
 
     //constructor
@@ -62,7 +60,7 @@ public abstract class Ghost {
         else if (this.dy == -1) this.setAllowedMoves(Directions.RIGHT);*/
 
         if (x != this.oldX || y != this.oldY){
-            System.out.println("first true");
+            //System.out.println("first true");
             if (this.map.intersection(y, x)){
                 if (!this.map.blocked(y, x+1) && this.dx!=-1)  this.setAllowedMoves(Directions.RIGHT);
                 if (!this.map.blocked(y, x-1) && this.dx!=1)  this.setAllowedMoves(Directions.LEFT);
@@ -106,7 +104,11 @@ public abstract class Ghost {
     public ArrayList<Directions> getAllowedMoves() {
         return allowedMoves;
     }
-    public int getX() {
+    public void setDx(int dx) {
+        this.dx = dx;
+    }
+
+/*    public int getX() {
         return x;
     }
     public void setX(int x) {
@@ -121,20 +123,17 @@ public abstract class Ghost {
     public int getDx() {
         return dx;
     }
-    public void setDx(int dx) {
-        this.dx = dx;
-    }
     public int getDy() {
         return dy;
     }
     public void setDy(int dy) {
         this.dy = dy;
-    }
+    }*/
 
 
     public void teleport(){
         if (map.t1(this.y, this.x)) {
-            this.x = map.WIDTH -3;
+            this.x = map.WIDTH - 4;
             this.px = this.x * TileSize;
         }
         else if (map.t2(this.y, this.x)) {
