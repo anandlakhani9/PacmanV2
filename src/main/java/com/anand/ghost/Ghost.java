@@ -21,6 +21,9 @@ public abstract class Ghost {
     private Map map;
     private String name;
     private int dx, dy;
+    private int px, py;
+
+    private int oldX, oldY;
 
     //order up, down, left right
     //true if move possible, therefore if (allowedMoves[0]){} will execute if you can move up
@@ -35,6 +38,8 @@ public abstract class Ghost {
         this.map = map;
         this.name = name;
 
+        this.px = x * TileSize;
+        this.py = y * TileSize;
     }
     //add a move to the list allowed moves if it is not already within the list
     public void setAllowedMoves(Directions d){
@@ -56,17 +61,27 @@ public abstract class Ghost {
         else if (this.dy == 1) this.setAllowedMoves(Directions.UP);
         else if (this.dy == -1) this.setAllowedMoves(Directions.RIGHT);*/
 
-        if (this.map.intersection(y, x)){
-            System.out.println("row: " + y + ", column: " + x);
-            if (!this.map.blocked(y, x+1) && this.dx!=-1)  this.setAllowedMoves(Directions.RIGHT);
-            if (!this.map.blocked(y, x-1) && this.dx!=1)  this.setAllowedMoves(Directions.LEFT);
-            if (!this.map.blocked(y-1, x) && this.dy!=1)  this.setAllowedMoves(Directions.UP);
-            if (!this.map.blocked(y+1, x) && this.dy!=-1)  this.setAllowedMoves(Directions.DOWN);
+        if (x != this.oldX || y != this.oldY){
+            System.out.println("first true");
+            if (this.map.intersection(y, x)){
+                if (!this.map.blocked(y, x+1) && this.dx!=-1)  this.setAllowedMoves(Directions.RIGHT);
+                if (!this.map.blocked(y, x-1) && this.dx!=1)  this.setAllowedMoves(Directions.LEFT);
+                if (!this.map.blocked(y-1, x) && this.dy!=1)  this.setAllowedMoves(Directions.UP);
+                if (!this.map.blocked(y+1, x) && this.dy!=-1)  this.setAllowedMoves(Directions.DOWN);
+                //System.out.println(getAllowedMoves());
+            }
+            else if (this.dx == 1) this.setAllowedMoves(Directions.RIGHT);
+            else if (this.dx == -1) this.setAllowedMoves(Directions.LEFT);
+            else if (this.dy == -1) this.setAllowedMoves(Directions.UP);
+            else if (this.dy == 1) this.setAllowedMoves(Directions.DOWN);
+
         }
         else if (this.dx == 1) this.setAllowedMoves(Directions.RIGHT);
         else if (this.dx == -1) this.setAllowedMoves(Directions.LEFT);
         else if (this.dy == -1) this.setAllowedMoves(Directions.UP);
         else if (this.dy == 1) this.setAllowedMoves(Directions.DOWN);
+        this.oldX = x;
+        this.oldY = y;
     }
     //given a direction, set the dx and dy values for the ghost
     public void setDirection(Directions d){
@@ -118,17 +133,25 @@ public abstract class Ghost {
 
 
     public void teleport(){
-        if (map.t1(this.y, this.x)) this.x = map.WIDTH -3;
-        else if (map.t2(this.y, this.x)) this.x = 1;
+        if (map.t1(this.y, this.x)) {
+            this.x = map.WIDTH -3;
+            this.px = this.x * TileSize;
+        }
+        else if (map.t2(this.y, this.x)) {
+            this.x = 1;
+            this.px = this.x * TileSize;
+        }
     }
     public void move(){
         teleport();
-        this.x += dx;
-        this.y += dy;
+        this.px += dx;
+        this.py += dy;
+        if (px % TileSize == 0) this.x += dx;
+        if (py % TileSize == 0) this.y += dy;
     }
     //paint method
     public void paintComponent(Graphics2D g2d) {
-        g2d.drawImage(this.img, this.x * TileSize, this.y *TileSize, null);
+        g2d.drawImage(this.img, px, py, null);
     }
 
     //to string method for ghost and any subclasses

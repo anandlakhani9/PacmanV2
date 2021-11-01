@@ -24,6 +24,20 @@ public class Map {
     public static final int HEIGHT = 32;
     public static final int TileSize = Main.screenHeight/HEIGHT - 3;
 
+    //images
+    private Image tlImage;
+    private Image tlImageScaled;
+    private Image blImage;
+    private Image blImageScaled;
+    private Image trImage;
+    private Image trImageScaled;
+    private Image brImage;
+    private Image brImageScaled;
+    private Image vwImage;
+    private Image vwImageScaled;
+    private Image hwImage;
+    private Image hwImageScaled;
+
     //constructor for the map, reads in map as an array from the csv file containing the map layout
     public Map(int rows, int columns, String src) {
         //old code - now in initMap() - too scared to delete it yet!
@@ -49,9 +63,36 @@ public class Map {
         this.columns = columns;
         this.src = src;
         this.mapArray = initMap(this.rows, this.columns, this.src);
+        initImages();
     }
 
     //TODO: Add methods
+
+    public void initImages(){
+        tlImage = new ImageIcon("src/main/resources/MapImages/top_left.png").getImage()
+                .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+        tlImageScaled = new ImageIcon(tlImage).getImage();
+
+        blImage = new ImageIcon("src/main/resources/MapImages/bottom_left.png").getImage()
+                .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+        blImageScaled = new ImageIcon(blImage).getImage();
+
+        trImage = new ImageIcon("src/main/resources/MapImages/top_right.png").getImage()
+                .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+        trImageScaled = new ImageIcon(trImage).getImage();
+
+        brImage = new ImageIcon("src/main/resources/MapImages/bottom_right.png").getImage()
+                .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+        brImageScaled = new ImageIcon(brImage).getImage();
+
+        vwImage = new ImageIcon("src/main/resources/MapImages/vertical_line.png").getImage()
+                .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+        vwImageScaled = new ImageIcon(vwImage).getImage();
+
+        hwImage = new ImageIcon("src/main/resources/MapImages/horizontal_line.png").getImage()
+                .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
+        hwImageScaled = new ImageIcon(hwImage).getImage();
+    }
 
     //initialise the map. Call in constructor to set the map array, as it needs to be done to create the map
     public String[][] initMap(int rows, int columns, String src){
@@ -131,46 +172,22 @@ public class Map {
             for (int j = 0; j < this.columns; j++) {
                 String tile = this.mapArray[i][j];
                 if (tile.equals("TL")){
-                    image = new ImageIcon("src/main/resources/MapImages/top_left.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
-
-                    icon = new ImageIcon(image).getImage();
-                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                    g2d.drawImage(tlImageScaled, j* TileSize, i*TileSize, null);
                 }
                 if (tile.equals("BL")){
-                    image = new ImageIcon("src/main/resources/MapImages/bottom_left.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
-                    //image = new BufferedImage(icon);
-                    icon = new ImageIcon(image).getImage();
-                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                    g2d.drawImage(blImageScaled, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("TR")){
-                    image = new ImageIcon("src/main/resources/MapImages/top_right.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
-                    //image = new BufferedImage(icon);
-                    icon = new ImageIcon(image).getImage();
-                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                    g2d.drawImage(trImageScaled, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("BR")){
-                    image = new ImageIcon("src/main/resources/MapImages/bottom_right.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
-                    //image = new BufferedImage(icon);
-                    icon = new ImageIcon(image).getImage();
-                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                    g2d.drawImage(brImageScaled, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("VW")){
-                    image = new ImageIcon("src/main/resources/MapImages/vertical_line.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
-                    //image = new BufferedImage(icon);
-                    icon = new ImageIcon(image).getImage();
-                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                    g2d.drawImage(vwImageScaled, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("HW")){
-                    image = new ImageIcon("src/main/resources/MapImages/horizontal_line.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
-                    //image = new BufferedImage(icon);
-                    icon = new ImageIcon(image).getImage();
-                    g2d.drawImage(icon, j* TileSize, i*TileSize, null);
+                    g2d.drawImage(hwImageScaled, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("DD")
                 || tile.equals("II")){

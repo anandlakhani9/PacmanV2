@@ -33,7 +33,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
         frame.setResizable(false);
         frame.add(this);
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-        frame.setUndecorated(true);
+        //frame.setUndecorated(true);
         frame.pack();
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,7 +100,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
         //get initial system time
         long lastTime = System.nanoTime();
         //this is targeting 100 updates (not frames) per second in nanoseconds
-        final double rate = 3.0 / 1000000000.0 ;
+        final double rate = 100.0 / 1000000000.0 ;
 
         double delta = 0;
 
@@ -132,7 +132,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
             if (System.currentTimeMillis() - FPStimer > 1000){
                 FPStimer += 1000;
                 //System.out.println("FPS: " + fps + ", UPS: " + updates);
-                //frame.setTitle("Pacman | FPS: " + fps + " | UPS: " + updates + " | Score: " + player.getScore());
+                frame.setTitle("Pacman | FPS: " + fps + " | UPS: " + updates);// + " | Score: " + player.getScore());
                 fps = 0;
                 updates = 0;
 
