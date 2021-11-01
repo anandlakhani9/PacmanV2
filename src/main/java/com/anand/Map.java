@@ -98,6 +98,19 @@ public class Map {
         );
     }
 
+    public boolean t1(int row, int column){
+        //return any of the different wall types
+        return (
+                mapArray[row][column].equals("T1")
+        );
+    }
+    public boolean t2(int row, int column){
+        //return any of the different wall types
+        return (
+                mapArray[row][column].equals("T2")
+        );
+    }
+
     //getters and setters
     public String getTile(int row, int column){
         return mapArray[row][column];
@@ -126,35 +139,35 @@ public class Map {
                 }
                 if (tile.equals("BL")){
                     image = new ImageIcon("src/main/resources/MapImages/bottom_left.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("TR")){
                     image = new ImageIcon("src/main/resources/MapImages/top_right.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("BR")){
                     image = new ImageIcon("src/main/resources/MapImages/bottom_right.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("VW")){
                     image = new ImageIcon("src/main/resources/MapImages/vertical_line.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("HW")){
                     image = new ImageIcon("src/main/resources/MapImages/horizontal_line.png").getImage()
-                            .getScaledInstance(TileSize , TileSize , Image.SCALE_DEFAULT);
+                            .getScaledInstance(TileSize , TileSize , Image.SCALE_SMOOTH);
                     //image = new BufferedImage(icon);
                     icon = new ImageIcon(image).getImage();
                     g2d.drawImage(icon, j* TileSize, i*TileSize, null);
@@ -168,6 +181,19 @@ public class Map {
                     int dot_pos_y = i * TileSize + (TileSize - rDot)/2;
                     g2d.drawOval(dot_pos_x, dot_pos_y, rDot, rDot);
                     g2d.fillOval(dot_pos_x, dot_pos_y, rDot, rDot);
+                }
+                else if (tile.equals("IP") || tile.equals("PP")){
+                    g2d.setColor(Color.white);
+                    int rDot = TileSize/2;
+                    //position the dots to the middle of the maze paths
+                    int dot_pos_x = j * TileSize + (TileSize - rDot)/2;
+                    int dot_pos_y = i * TileSize + (TileSize - rDot)/2;
+                    g2d.drawOval(dot_pos_x, dot_pos_y, rDot, rDot);
+                    g2d.fillOval(dot_pos_x, dot_pos_y, rDot, rDot);
+                }
+                if (tile.equals("IE") || tile.equals("II") || tile.equals("IP") ){
+                    g2d.setColor(Color.red);
+                    g2d.drawRect(j*TileSize, i*TileSize, TileSize, TileSize);
                 }
 
             }

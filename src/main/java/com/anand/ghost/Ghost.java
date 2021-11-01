@@ -31,7 +31,7 @@ public abstract class Ghost {
         this.x = x;
         this.y = y;
         this.image = image;
-        this.img = image.getImage().getScaledInstance(TileSize,TileSize,Image.SCALE_SMOOTH);
+        this.img = image.getImage().getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
         this.map = map;
         this.name = name;
 
@@ -116,12 +116,18 @@ public abstract class Ghost {
         this.dy = dy;
     }
 
+
+    public void teleport(){
+        if (map.t1(this.y, this.x)) this.setX(map.WIDTH -3);
+        else if (map.t2(this.y, this.x)) this.setX(1);
+    }
     public void move(){
+        teleport();
         this.x += dx;
         this.y += dy;
     }
     //paint method
-    public void paintComponent(Graphics2D g2d) {;
+    public void paintComponent(Graphics2D g2d) {
         g2d.drawImage(this.img, this.x * TileSize, this.y *TileSize, null);
     }
 

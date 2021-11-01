@@ -19,8 +19,8 @@ public class Main extends Canvas implements Runnable, KeyListener {
     private JFrame frame;
     private Thread thread;
     private Boolean running = false;
-    ImageIcon right = new ImageIcon("src/main/resources/right.gif");
-    RandomGhost rand = new RandomGhost(7,2,right,map,"randomGhost");
+    ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
+    RandomGhost rand = new RandomGhost(26,15,randGhostImage,map,"randomGhost");
     public static void main(String[] args) {
         new Main();
 
@@ -41,6 +41,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
         frame.setVisible(true);
         frame.setFocusable(true);
         frame.addKeyListener(this);
+        rand.setDx(1);
         start();
     }
 
