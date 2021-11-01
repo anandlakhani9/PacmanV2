@@ -118,8 +118,8 @@ public abstract class Ghost {
 
 
     public void teleport(){
-        if (map.t1(this.y, this.x)) this.setX(map.WIDTH -3);
-        else if (map.t2(this.y, this.x)) this.setX(1);
+        if (map.t1(this.y, this.x)) this.x = map.WIDTH -3;
+        else if (map.t2(this.y, this.x)) this.x = 1;
     }
     public void move(){
         teleport();
