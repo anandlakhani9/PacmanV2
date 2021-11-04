@@ -2,12 +2,10 @@ package com.anand;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.util.Arrays;
+
 
 public class Map {
 
@@ -66,7 +64,6 @@ public class Map {
         initImages();
     }
 
-    //TODO: Add methods
 
     public void initImages(){
         tlImage = new ImageIcon("src/main/resources/MapImages/top_left.png").getImage()
@@ -155,14 +152,21 @@ public class Map {
     public boolean pellet(int row, int column){
         return mapArray[row][column].equals( "DD") ;
     }
+    public boolean powerPellet(int row, int column){
+        return mapArray[row][column].equals( "PP") ;
+    }
     public boolean intersectionPellet(int row, int column){
         return mapArray[row][column].equals( "II") ;
     }
+    public boolean intersectionPowerPellet(int row, int column){
+        return mapArray[row][column].equals( "IP") ;
+    }
 
     //getters and setters
-    public String getTile(int row, int column){
+    /*public String getTile(int row, int column){
         return mapArray[row][column];
-    }
+    }*/
+
     public void setTile(int row, int column, String value){
         mapArray[row][column] = value;
 
@@ -171,17 +175,16 @@ public class Map {
         return this.mapArray;
     }
 
-    //TODO: paint method for graphics
+    //this method has not been unit tested as it has clear visual feedback on the screen when it works
     public void paintComponent(Graphics2D g2d){
-        Image icon;
-        Image image;
+
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 String tile = this.mapArray[i][j];
                 if (tile.equals("TL")){
                     g2d.drawImage(tlImageScaled, j* TileSize, i*TileSize, null);
                 }
-                if (tile.equals("BL")){
+                else if (tile.equals("BL")){
                     g2d.drawImage(blImageScaled, j* TileSize, i*TileSize, null);
                 }
                 else if (tile.equals("TR")){

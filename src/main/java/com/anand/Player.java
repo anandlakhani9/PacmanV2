@@ -54,6 +54,18 @@ public class Player {
         return dy;
     }
 
+    public void setDx(int dx) {
+        this.dx = dx;
+    }
+
+    public void setDy(int dy) {
+        this.dy = dy;
+    }
+
+    public void setPx(int px) {
+        this.px = px;
+    }
+
     public int getScore() {
         return score;
     }
@@ -69,7 +81,6 @@ public class Player {
             map.setTile(this.y, this.x, "IE");
             score += 10;
         }
-        //else System.out.println("no point");
     }
 
     public void loseLife(){
@@ -81,12 +92,12 @@ public class Player {
 
     public void teleport(){
         if (map.t1(this.y + dy, this.x + dx)) {
-            System.out.println("teleport");
+            //System.out.println("teleport");
             this.x = map.WIDTH - 4;
             this.px = this.x * TileSize;
         }
         else if (map.t2(this.y + dy, this.x + dx)) {
-            System.out.println("teleport");
+            //System.out.println("teleport");
             this.x = 1;
             this.px = this.x * TileSize;
         }
@@ -109,7 +120,6 @@ public class Player {
             if (px % TileSize == 0) this.x += dx;
             if (py % TileSize == 0) this.y += dy;
         }
-
     }
 
     public void resetPos(int x, int y){
@@ -131,5 +141,24 @@ public class Player {
     }
     public int getPy() {
         return this.py;
+    }
+
+    public int getDesiredDx() {
+        return this.desiredDx;
+    }
+    public int getDesiredDy() {
+        return this.desiredDy;
+    }
+
+    public void setScore(int i) {
+        this.score = i;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
