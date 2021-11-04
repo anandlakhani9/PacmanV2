@@ -2,11 +2,14 @@ package com.anand.ghost;
 
 import com.anand.Directions;
 import com.anand.Map;
+import com.anand.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import com.google.common.collect.Range;
+
 
 import static com.anand.Map.TileSize;
 
@@ -27,14 +30,17 @@ public abstract class Ghost {
 
     private ArrayList<Directions> allowedMoves = new ArrayList();
 
+    private Player player;
+
     //constructor
-    public Ghost(int x, int y, ImageIcon image, Map map, String name) {
+    public Ghost(int x, int y, ImageIcon image, Map map, String name, Player player) {
         this.x = x;
         this.y = y;
         this.image = image;
         this.img = image.getImage().getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
         this.map = map;
         this.name = name;
+        this.player = player;
 
         this.px = x * TileSize;
         this.py = y * TileSize;
@@ -44,6 +50,7 @@ public abstract class Ghost {
         if(!this.allowedMoves.contains(d)) this.allowedMoves.add(d);
     }
     //method to return a list of moves that are not blocked or reversing the direction
+
     public void populateAllowedMoves(){
         int x = this.x;
         int y = this.y;
@@ -130,6 +137,37 @@ public abstract class Ghost {
         this.dy = dy;
     }*/
 
+    //Old collision Method
+    /*  OLD Collsion method
+  public Boolean collideWithPlayer(){
+        //top left of player touches top left of ghost
+        if (this.px == player.getPx() && this.py == player.getPy()) return true;
+        //top left of player touches top right of ghost
+        else if (this.px+TileSize == player.getPx() && this.py == player.getPy()) return true;
+        //top right of player touches top left of ghost
+        else if (this.px == player.getPx() && this.py+TileSize == player.getPy()) return true;
+        //top right of player touches top right of ghost
+        else if (this.px+TileSize == player.getPx()+TileSize && this.py == player.getPy()) return true;
+
+        //top left of player touches bottom left of ghost
+        else if (this.px == player.getPx() && this.py+TileSize == player.getPy()) return true;
+        //bottom left of player touches top left of ghost
+        else if (this.px == player.getPx() && this.py == player.getPy()+TileSize) return true;
+        return false;
+
+    }*/
+
+    //new collision method
+    public Boolean collideWithPlayer() {
+        if (Range.open(this.px, this.px + TileSize)
+                .isConnected(Range.open(player.getPx(), player.getPx()+TileSize))) {
+            if (Range.open(this.py, this.py + TileSize)
+                    .isConnected(Range.open(player.getPy(), player.getPy()+TileSize))) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void teleport(){
         if (map.t1(this.y, this.x)) {

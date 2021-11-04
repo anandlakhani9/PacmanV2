@@ -2,6 +2,7 @@ package com.anand.ghost;
 
 import com.anand.Directions;
 import com.anand.Map;
+import com.anand.Player;
 
 import javax.swing.*;
 import java.awt.Image;
@@ -10,8 +11,8 @@ import java.util.Random;
 
 public class RandomGhost extends Ghost{
 
-    public RandomGhost(int x, int y, ImageIcon image, Map map, String name) {
-        super(x, y, image,  map, name);
+    public RandomGhost(int x, int y, ImageIcon image, Map map, String name, Player player) {
+        super(x, y, image,  map, name, player);
     }
 
 

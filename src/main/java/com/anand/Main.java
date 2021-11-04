@@ -19,11 +19,12 @@ public class Main extends Canvas implements Runnable, KeyListener {
     private JFrame frame;
     private Thread thread;
     private Boolean running = false;
-    private ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
-    private RandomGhost rand = new RandomGhost(3,15,randGhostImage,map,"randomGhost");
 
     private ImageIcon rightPacman = new ImageIcon("src/main/resources/right.gif");
     private Player player = new Player(14,24,rightPacman,map,"player");
+
+    private ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
+    private RandomGhost rand = new RandomGhost(3,15,randGhostImage,map,"randomGhost", player);
     public static void main(String[] args) {
         new Main();
 
@@ -135,7 +136,8 @@ public class Main extends Canvas implements Runnable, KeyListener {
             if (System.currentTimeMillis() - FPStimer > 1000){
                 FPStimer += 1000;
                 //System.out.println("FPS: " + fps + ", UPS: " + updates);
-                frame.setTitle("Pacman | FPS: " + fps + " | UPS: " + updates + " | Score: " + player.getScore());
+                frame.setTitle("Pacman | FPS: " + fps + " | UPS: " + updates + " | Score: " + player.getScore()
+                        + " | Lives: " + player.getLives());
                 fps = 0;
                 updates = 0;
             }
@@ -144,6 +146,11 @@ public class Main extends Canvas implements Runnable, KeyListener {
     }
 
     public void update(){
+        if(rand.collideWithPlayer()) {
+            player.loseLife();
+            player.resetPos(14,24);
+            if (player.getLives() == 0) this.running = false;
+        }
         rand.populateAllowedMoves();
         rand.setDirection(rand.getMove());
         rand.move();

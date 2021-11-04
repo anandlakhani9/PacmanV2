@@ -21,8 +21,10 @@ public class Player {
     private int desiredDx, desiredDy;
     private int oldX, oldY;
 
+    private int lives;
     private int score;
     private ArrayList<Directions> allowedMoves = new ArrayList();
+
     //start at row 24 col 14
     //constructor
     public Player(int x, int y, ImageIcon image, Map map, String name) {
@@ -32,7 +34,7 @@ public class Player {
         this.img = image.getImage().getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
         this.map = map;
         this.name = name;
-
+        this.lives = 3;
         this.px = x * TileSize;
         this.py = y * TileSize;
     }
@@ -70,6 +72,13 @@ public class Player {
         //else System.out.println("no point");
     }
 
+    public void loseLife(){
+        this.lives --;
+    }
+    public int getLives(){
+        return this.lives;
+    }
+
     public void teleport(){
         if (map.t1(this.y + dy, this.x + dx)) {
             System.out.println("teleport");
@@ -103,8 +112,24 @@ public class Player {
 
     }
 
+    public void resetPos(int x, int y){
+        this.x = x;
+        this.y = y;
+        this.px = x*TileSize;
+        this.py = y*TileSize;
+        this.dx = 0;
+        this.dy = 0;
+    }
+
     //paint method
     public void paintComponent(Graphics2D g2d) {
         g2d.drawImage(this.img, px, py, null);
+    }
+
+    public int getPx() {
+        return this.px;
+    }
+    public int getPy() {
+        return this.py;
     }
 }
