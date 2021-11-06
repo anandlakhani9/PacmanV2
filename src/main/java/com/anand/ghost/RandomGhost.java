@@ -7,6 +7,7 @@ import com.anand.Player;
 import javax.swing.*;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class RandomGhost extends Ghost{
@@ -19,7 +20,7 @@ public class RandomGhost extends Ghost{
 
     //from the list of allowed directions belonging to the super class, return a random direction
     public Directions getMove(){
-        ArrayList<Directions> possible = this.getAllowedMoves();
+        List<Directions> possible = this.getAllowedMoves();
         Random rand = new Random();
         int maxIndex = possible.size();
         int index = rand.nextInt(maxIndex);

@@ -7,6 +7,8 @@ import com.anand.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
+
 import java.util.Collections;
 import com.google.common.collect.Range;
 
@@ -28,7 +30,7 @@ public abstract class Ghost {
 
     private int oldX, oldY;
 
-    private ArrayList<Directions> allowedMoves = new ArrayList();
+    private List<Directions> allowedMoves = new ArrayList();
 
     private Player player;
 
@@ -108,7 +110,7 @@ public abstract class Ghost {
         }
     }
     //more basic getters and setters
-    public ArrayList<Directions> getAllowedMoves() {
+    public List<Directions> getAllowedMoves() {
         return allowedMoves;
     }
     public void setDx(int dx) {
