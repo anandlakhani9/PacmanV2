@@ -307,7 +307,6 @@ class PlayerTest {
         //when
         player.setDx(1);
         player.setPx(player.getX()*Map.TileSize + Map.TileSize-1);
-        System.out.println(player.getPx());
         given(map.t1(
                 player.getY()+player.getDy(),
                 player.getX()+player.getDx()))
@@ -337,7 +336,6 @@ class PlayerTest {
         //when
         player.setDx(1);
         player.setPx(player.getX()*Map.TileSize + Map.TileSize-5);
-        System.out.println(player.getPx());
         given(map.t1(
                 player.getY()+player.getDy(),
                 player.getX()+player.getDx()))

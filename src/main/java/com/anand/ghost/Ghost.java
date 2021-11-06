@@ -117,7 +117,7 @@ public abstract class Ghost {
         this.dx = dx;
     }
 
-/*    public int getX() {
+    public int getX() {
         return x;
     }
     public void setX(int x) {
@@ -137,7 +137,7 @@ public abstract class Ghost {
     }
     public void setDy(int dy) {
         this.dy = dy;
-    }*/
+    }
 
     //Old collision Method
     /*  OLD Collsion method
