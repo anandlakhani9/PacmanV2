@@ -81,7 +81,6 @@ public abstract class Ghost {
             else if (this.dx == -1) this.setAllowedMoves(Directions.LEFT);
             else if (this.dy == -1) this.setAllowedMoves(Directions.UP);
             else if (this.dy == 1) this.setAllowedMoves(Directions.DOWN);
-
         }
         else if (this.dx == 1) this.setAllowedMoves(Directions.RIGHT);
         else if (this.dx == -1) this.setAllowedMoves(Directions.LEFT);
@@ -139,6 +138,14 @@ public abstract class Ghost {
         this.dy = dy;
     }
 
+    public int getPx() {
+        return px;
+    }
+
+    public int getPy() {
+        return py;
+    }
+
     //Old collision Method
     /*  OLD Collsion method
   public Boolean collideWithPlayer(){
@@ -173,7 +180,7 @@ public abstract class Ghost {
 
     public void teleport(){
         if (map.t1(this.y, this.x)) {
-            this.x = map.WIDTH - 4;
+            this.x = Map.WIDTH - 4;
             this.px = this.x * TileSize;
         }
         else if (map.t2(this.y, this.x)) {
@@ -204,5 +211,12 @@ public abstract class Ghost {
                 ", dy=" + dy +
                 ", allowedMoves=" + allowedMoves +
                 '}';
+    }
+
+    public void setOldX(int x){
+        this.oldX = x;
+    }
+    public void setOldY(int y){
+        this.oldY = y;
     }
 }
