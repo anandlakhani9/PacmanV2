@@ -380,8 +380,88 @@ class GhostTest {
     }
 
     @Test
-    void move() {
+    void moveWithTeleportT1() {
+        //given
+        given(map.t1(underTest.getY(), underTest.getX())).willReturn(true);
+        underTest.setDx(1);
+        //when
+        underTest.move();
+        int actualX = underTest.getX();
+        int actualPx = underTest.getPx();
+        int actualY = underTest.getY();
+        int actualPy = underTest.getPy();
+        int expectedX = 28;
+        int expectedPx = 28*TileSize + 1;
+        int expectedY = 1;
+        int expectedPy = TileSize;
+        //then
+        assertEquals(expectedX,actualX);
+        assertEquals(expectedPx,actualPx);
+        assertEquals(expectedY,actualY);
+        assertEquals(expectedPy,actualPy);
+    }
+    @Test
+    void moveWithTeleportT2() {
+        //given
+        given(map.t2(underTest.getY(), underTest.getX())).willReturn(true);
+        underTest.setDx(-1);
+        //when
+        underTest.move();
+        int actualX = underTest.getX();
+        int actualPx = underTest.getPx();
+        int actualY = underTest.getY();
+        int actualPy = underTest.getPy();
+        int expectedX = 1;
+        int expectedPx = TileSize -1;
+        int expectedY = 1;
+        int expectedPy = TileSize;
+        //then
+        assertEquals(expectedX,actualX);
+        assertEquals(expectedPx,actualPx);
+        assertEquals(expectedY,actualY);
+        assertEquals(expectedPy,actualPy);
     }
 
+    @Test
+    void moveOnRegularTileStayOnSameTile(){
+        //given
+        underTest.setDy(1);
+        //when
+        underTest.move();
+        int actualPx = underTest.getPx();
+        int actualPy = underTest.getPy();
+        int expectedPx = TileSize;
+        int expectedPy = TileSize+1;
+        int actualX = underTest.getX();
+        int actualY = underTest.getY();
+        int expectedX = 1;
+        int expectedY = 1;
+        //then
+        assertEquals(expectedPx,actualPx);
+        assertEquals(expectedPy,actualPy);
+        assertEquals(expectedX,actualX);
+        assertEquals(expectedY,actualY);
+    }
+    @Test
+    void moveOnRegularTileGoToNextTile(){
+        //given
+        underTest.setDx(1);
+        underTest.setPx(underTest.getPx()+TileSize-1);
+        //when
+        underTest.move();
+        int actualPx = underTest.getPx();
+        int actualPy = underTest.getPy();
+        int expectedPx = 2*TileSize;
+        int expectedPy = TileSize;
+        int actualX = underTest.getX();
+        int actualY = underTest.getY();
+        int expectedX = 2;
+        int expectedY = 1;
+        //then
+        assertEquals(expectedPx,actualPx);
+        assertEquals(expectedPy,actualPy);
+        assertEquals(expectedX,actualX);
+        assertEquals(expectedY,actualY);
+    }
 
 }

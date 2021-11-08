@@ -142,6 +142,10 @@ public abstract class Ghost {
         return px;
     }
 
+    public void setPx(int px) {
+        this.px = px;
+    }
+
     public int getPy() {
         return py;
     }
