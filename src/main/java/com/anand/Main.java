@@ -19,8 +19,12 @@ public class Main extends Canvas implements Runnable, KeyListener {
     private JFrame frame;
     private Thread thread;
     private Boolean running = false;
-    ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
-    RandomGhost rand = new RandomGhost(3,15,randGhostImage,map,"randomGhost");
+
+    private ImageIcon rightPacman = new ImageIcon("src/main/resources/right.gif");
+    private Player player = new Player(14,24,rightPacman,map,"player");
+
+    private ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
+    private RandomGhost rand = new RandomGhost(3,15,randGhostImage,map,"randomGhost", player);
     public static void main(String[] args) {
         new Main();
 
@@ -71,7 +75,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
         //now add the map
         map.paintComponent(g);
         rand.paintComponent(g);
-
+        player.paintComponent(g);
         //end adding graphics before here
         g.dispose();
         bs.show();
@@ -132,7 +136,8 @@ public class Main extends Canvas implements Runnable, KeyListener {
             if (System.currentTimeMillis() - FPStimer > 1000){
                 FPStimer += 1000;
                 //System.out.println("FPS: " + fps + ", UPS: " + updates);
-                frame.setTitle("Pacman | FPS: " + fps + " | UPS: " + updates);// + " | Score: " + player.getScore());
+                frame.setTitle("Pacman | FPS: " + fps + " | UPS: " + updates + " | Score: " + player.getScore()
+                        + " | Lives: " + player.getLives());
                 fps = 0;
                 updates = 0;
             }
@@ -141,9 +146,17 @@ public class Main extends Canvas implements Runnable, KeyListener {
     }
 
     public void update(){
+        if(rand.collideWithPlayer()) {
+            player.loseLife();
+            player.resetPos(14,24);
+            if (player.getLives() == 0) this.running = false;
+        }
         rand.populateAllowedMoves();
         rand.setDirection(rand.getMove());
         rand.move();
+        player.scorePoints();
+        player.setDirection();
+        player.move();
     }
 
     @Override
@@ -155,6 +168,22 @@ public class Main extends Canvas implements Runnable, KeyListener {
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             System.exit(0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            player.setDesiredDx(-1);
+            player.setDesiredDy(0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            player.setDesiredDx(1);
+            player.setDesiredDy(0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_UP) {
+            player.setDesiredDx(0);
+            player.setDesiredDy(-1);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            player.setDesiredDx(0);
+            player.setDesiredDy(1);
         }
     }
 
