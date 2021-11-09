@@ -69,13 +69,21 @@ public abstract class Ghost {
         else if (this.dy == -1) this.setAllowedMoves(Directions.RIGHT);*/
 
         if (x != this.oldX || y != this.oldY){
-            //System.out.println("first true");
-            if (this.map.intersection(y, x)){
+            if (this.map.g1(y,x)) this.setAllowedMoves(Directions.RIGHT);
+            else if (this.map.g2(y,x)) this.setAllowedMoves(Directions.UP);
+            else if (this.map.g3(y,x)) this.setAllowedMoves(Directions.UP);
+            else if (this.map.g4(y,x)) this.setAllowedMoves(Directions.LEFT);
+            else if (this.map.gU(y,x)) this.setAllowedMoves(Directions.UP);
+            else if (this.map.iG(y,x)) {
+                if(this.dx != -1) this.setAllowedMoves(Directions.RIGHT);
+                if(this.dx != 1) this.setAllowedMoves(Directions.LEFT);
+            }
+
+            else if (this.map.intersection(y, x)){
                 if (!this.map.blocked(y, x+1) && this.dx!=-1)  this.setAllowedMoves(Directions.RIGHT);
                 if (!this.map.blocked(y, x-1) && this.dx!=1)  this.setAllowedMoves(Directions.LEFT);
                 if (!this.map.blocked(y-1, x) && this.dy!=1)  this.setAllowedMoves(Directions.UP);
                 if (!this.map.blocked(y+1, x) && this.dy!=-1)  this.setAllowedMoves(Directions.DOWN);
-                //System.out.println(getAllowedMoves());
             }
             else if (this.dx == 1) this.setAllowedMoves(Directions.RIGHT);
             else if (this.dx == -1) this.setAllowedMoves(Directions.LEFT);
@@ -198,6 +206,13 @@ public abstract class Ghost {
         this.py += dy;
         if (px % TileSize == 0) this.x += dx;
         if (py % TileSize == 0) this.y += dy;
+    }
+
+    public void resetPos(int x, int y){
+        this.x = x;
+        this.y = y;
+        this.px = x*TileSize;
+        this.py = y*TileSize;
     }
     //paint method
     public void paintComponent(Graphics2D g2d) {

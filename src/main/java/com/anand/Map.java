@@ -162,6 +162,24 @@ public class Map {
         return mapArray[row][column].equals( "IP") ;
     }
 
+    public boolean g1(int row, int column){
+        return mapArray[row][column].equals("G1");
+    }
+    public boolean g2(int row, int column){
+        return mapArray[row][column].equals("G2");
+    }
+    public boolean g3(int row, int column){
+        return mapArray[row][column].equals("G3");
+    }
+    public boolean g4(int row, int column){
+        return mapArray[row][column].equals("G4");
+    }
+    public boolean gU(int row, int column){
+        return mapArray[row][column].equals("GU");
+    }
+    public boolean iG(int row, int column) {
+        return mapArray[row][column].equals("IG");
+    }
     //getters and setters
     /*public String getTile(int row, int column){
         return mapArray[row][column];
@@ -209,7 +227,8 @@ public class Map {
                     g2d.drawOval(dot_pos_x, dot_pos_y, rDot, rDot);
                     g2d.fillOval(dot_pos_x, dot_pos_y, rDot, rDot);
                 }
-                else if (tile.equals("IP") || tile.equals("PP")){
+                else if (tile.equals("IP")
+                        || tile.equals("PP")){
                     g2d.setColor(Color.white);
                     int rDot = TileSize/2;
                     //position the dots to the middle of the maze paths
@@ -227,4 +246,6 @@ public class Map {
 
         }
     }
+
+
 }
