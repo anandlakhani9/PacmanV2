@@ -16,12 +16,15 @@ public class Main extends Canvas implements Runnable, KeyListener {
     //width and height, constant, accessible by other classes
     public static int screenHeight = screenSize.height;
     private static int screenWidth = screenSize.width;
+
+    private ImageIcon rightPacman = new ImageIcon("src/main/resources/right.gif");
+    private Player player = new Player(14,24,map,"player");
+
     private JFrame frame;
     private Thread thread;
     private Boolean running = false;
 
-    private ImageIcon rightPacman = new ImageIcon("src/main/resources/right.gif");
-    private Player player = new Player(14,24,rightPacman,map,"player");
+
 
     private ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
     private RandomGhost rand = new RandomGhost(13,15,randGhostImage,map,"randomGhost", player);
@@ -106,11 +109,15 @@ public class Main extends Canvas implements Runnable, KeyListener {
         }
     }
 
+
     public void run() {
         //get initial system time
         long lastTime = System.nanoTime();
         //this is targeting 100 updates (not frames) per second in nanoseconds
-        final double rate = 250.0 / 1000000000.0 ;
+        //final double rate =   250.0 / 1000000000.0 ;
+        //as the TileSize depends on the screen size, the game speed should be consistent based on the screensize
+        final double rate = 6*Map.TileSize / 1000000000.0 ;
+        System.out.println(rate);
 
         double delta = 0;
 

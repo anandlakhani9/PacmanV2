@@ -25,19 +25,36 @@ public class Player {
     private int score;
     private ArrayList<Directions> allowedMoves = new ArrayList();
 
+    private Image right = new ImageIcon("src/main/resources/right.gif").getImage()
+            .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
+    private Image rightScaled = new ImageIcon(right).getImage();
+    private Image left = new ImageIcon("src/main/resources/left.gif").getImage()
+            .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);;
+    private Image leftScaled = new ImageIcon(left).getImage();
+    private Image up = new ImageIcon("src/main/resources/up.gif").getImage()
+                .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);;
+    private Image upScaled = new ImageIcon(up).getImage();
+    private Image down = new ImageIcon("src/main/resources/down.gif").getImage()
+                .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
+    private Image downScaled = new ImageIcon(down).getImage();
+
     //start at row 24 col 14
     //constructor
-    public Player(int x, int y, ImageIcon image, Map map, String name) {
+    public Player(int x, int y, Map map, String name) {
         this.x = x;
         this.y = y;
-        this.image = image;
-        this.img = image.getImage().getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
+        //this.image = image;
+        //this.img = image.getImage().getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
+        //initImages();
+        this.img = rightScaled;
         this.map = map;
         this.name = name;
         this.lives = 3;
         this.px = x * TileSize;
         this.py = y * TileSize;
+        //this.img = setImg(getRightScaled());
     }
+
 
     public void setDesiredDx(int direction){
         this.desiredDx = direction;
@@ -108,6 +125,10 @@ public class Player {
             if (px % TileSize == 0 && py % TileSize == 0){
                 this.dx = this.desiredDx;
                 this.dy = this.desiredDy;
+                if (this.dx == 1) this.img = rightScaled;
+                else if (this.dx == -1) this.img = leftScaled;
+                else if (this.dy == 1) this.img = downScaled;
+                else if (this.dy == -1) this.img = upScaled;
             }
 
         }
