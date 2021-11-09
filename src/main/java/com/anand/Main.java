@@ -24,7 +24,11 @@ public class Main extends Canvas implements Runnable, KeyListener {
     private Player player = new Player(14,24,rightPacman,map,"player");
 
     private ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
-    private RandomGhost rand = new RandomGhost(3,15,randGhostImage,map,"randomGhost", player);
+    private RandomGhost rand = new RandomGhost(13,15,randGhostImage,map,"randomGhost", player);
+    private RandomGhost r2 = new RandomGhost(16,15,randGhostImage,map,"r2", player);
+    private RandomGhost r3 = new RandomGhost(15,15,randGhostImage,map,"r3", player);
+    private RandomGhost r4 = new RandomGhost(14,15,randGhostImage,map,"r4", player);
+
     public static void main(String[] args) {
         new Main();
 
@@ -45,7 +49,6 @@ public class Main extends Canvas implements Runnable, KeyListener {
         frame.setVisible(true);
         frame.setFocusable(true);
         frame.addKeyListener(this);
-        rand.setDx(-1);
         start();
     }
 
@@ -75,6 +78,9 @@ public class Main extends Canvas implements Runnable, KeyListener {
         //now add the map
         map.paintComponent(g);
         rand.paintComponent(g);
+        r2.paintComponent(g);
+        r3.paintComponent(g);
+        r4.paintComponent(g);
         player.paintComponent(g);
         //end adding graphics before here
         g.dispose();
@@ -146,14 +152,27 @@ public class Main extends Canvas implements Runnable, KeyListener {
     }
 
     public void update(){
-        if(rand.collideWithPlayer()) {
+        if(rand.collideWithPlayer() || r2.collideWithPlayer() || r3.collideWithPlayer() || r4.collideWithPlayer()) {
             player.loseLife();
             player.resetPos(14,24);
+            rand.resetPos(13,15);
+            r2.resetPos(16,15);
+            r3.resetPos(15,15);
+            r4.resetPos(14,15);
             if (player.getLives() == 0) this.running = false;
         }
         rand.populateAllowedMoves();
         rand.setDirection(rand.getMove());
         rand.move();
+        r2.populateAllowedMoves();
+        r2.setDirection(r2.getMove());
+        r2.move();
+        r3.populateAllowedMoves();
+        r3.setDirection(r3.getMove());
+        r3.move();
+        r4.populateAllowedMoves();
+        r4.setDirection(r4.getMove());
+        r4.move();
         player.scorePoints();
         player.setDirection();
         player.move();
