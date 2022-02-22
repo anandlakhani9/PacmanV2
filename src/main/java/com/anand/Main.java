@@ -150,7 +150,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
                 FPStimer += 1000;
                 //System.out.println("FPS: " + fps + ", UPS: " + updates);
                 frame.setTitle("Pacman | FPS: " + fps + " | UPS: " + updates + " | Score: " + player.getScore()
-                        + " | Lives: " + player.getLives());
+                        + " | Lives: " + player.getLives() + "CanEat? " + player.isCanEatGhost());
                 fps = 0;
                 updates = 0;
             }
@@ -159,7 +159,35 @@ public class Main extends Canvas implements Runnable, KeyListener {
     }
 
     public void update(){
-        if(rand.collideWithPlayer() || r2.collideWithPlayer() || r3.collideWithPlayer() || r4.collideWithPlayer()) {
+        //System.out.println(player.isCanEatGhost());
+        if (player.isCanEatGhost()){
+            //System.out.println("hello");
+            long timeSoFar = System.nanoTime() - player.getEatGhostTimer();
+            //System.out.println(System.nanoTime() - player.getEatGhostTimer());
+            if (timeSoFar >= 4000000000L){
+                player.setCanEatGhost(false);
+            }
+            else {
+                if(rand.collideWithPlayer()){
+                    rand.resetPos(13,15);
+                    player.setScore(player.getScore() + 100);
+                }
+                else if (r2.collideWithPlayer()){
+                    r2.resetPos(16,15);
+                    player.setScore(player.getScore() + 100);
+                }
+                else if (r3.collideWithPlayer()){
+                    r3.resetPos(15,15);
+                    player.setScore(player.getScore() + 100);
+                }
+                else if (r4.collideWithPlayer()){
+                    r4.resetPos(14,15);
+                    player.setScore(player.getScore() + 100);
+                }
+            }
+
+        }
+        else if(rand.collideWithPlayer() || r2.collideWithPlayer() || r3.collideWithPlayer() || r4.collideWithPlayer()) {
             player.loseLife();
             player.resetPos(14,24);
             rand.resetPos(13,15);

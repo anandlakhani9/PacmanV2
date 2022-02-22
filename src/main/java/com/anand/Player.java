@@ -37,7 +37,10 @@ public class Player {
     private Image down = new ImageIcon("src/main/resources/down.gif").getImage()
                 .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
     private Image downScaled = new ImageIcon(down).getImage();
+    //nanoseconds
+    private long eatGhostTimer;
 
+    private boolean canEatGhost;
     //start at row 24 col 14
     //constructor
     public Player(int x, int y, Map map, String name) {
@@ -52,9 +55,18 @@ public class Player {
         this.lives = 3;
         this.px = x * TileSize;
         this.py = y * TileSize;
+        this.canEatGhost = false;
         //this.img = setImg(getRightScaled());
+        this.eatGhostTimer = 0L;
     }
 
+    public long getEatGhostTimer() {
+        return eatGhostTimer;
+    }
+
+    public void setEatGhostTimer(long eatGhostTimer) {
+        this.eatGhostTimer = eatGhostTimer;
+    }
 
     public void setDesiredDx(int direction){
         this.desiredDx = direction;
@@ -87,6 +99,14 @@ public class Player {
         return score;
     }
 
+    public boolean isCanEatGhost() {
+        return canEatGhost;
+    }
+
+    public void setCanEatGhost(boolean canEatGhost) {
+        this.canEatGhost = canEatGhost;
+    }
+
     public void scorePoints(){
         //System.out.println(map.pellet(this.y, this.x));
         if (map.pellet(this.y, this.x)){
@@ -97,6 +117,18 @@ public class Player {
         else if (map.intersectionPellet(this.y, this.x)){
             map.setTile(this.y, this.x, "IE");
             score += 10;
+        }
+        else if (map.intersectionPowerPellet(this.y, this.x)){
+            map.setTile(this.y, this.x, "IE");
+            score+=50;
+            this.canEatGhost = true;
+            this.eatGhostTimer = System.nanoTime();
+        }
+        else if (map.powerPellet(this.y, this.x)){
+            map.setTile(this.y, this.x, "ES");
+            score += 50;
+            this.canEatGhost = true;
+            this.eatGhostTimer = System.nanoTime();
         }
     }
 
