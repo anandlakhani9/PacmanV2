@@ -74,7 +74,8 @@ public class Main extends Canvas implements Runnable, KeyListener {
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
         //add graphics here
         // this both clears the screen and adds a black border!
-        g.setColor(Color.BLACK);
+        if (!player.isCanEatGhost()) g.setColor(Color.BLACK);
+        else g.setColor(Color.GRAY);
         g.fillRect(0, 0 , screenWidth, screenHeight);
         //Translate graphics below here to middle of screen
         g.translate((screenWidth/2) - (Map.WIDTH * Map.TileSize / 2), (screenHeight/2) - (Map.HEIGHT * Map.TileSize / 2));
