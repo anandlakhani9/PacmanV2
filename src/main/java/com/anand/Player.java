@@ -25,18 +25,47 @@ public class Player {
     private int score;
     private ArrayList<Directions> allowedMoves = new ArrayList();
 
+    private Image right = new ImageIcon("src/main/resources/right.gif").getImage()
+            .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
+    private Image rightScaled = new ImageIcon(right).getImage();
+    private Image left = new ImageIcon("src/main/resources/left.gif").getImage()
+            .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);;
+    private Image leftScaled = new ImageIcon(left).getImage();
+    private Image up = new ImageIcon("src/main/resources/up.gif").getImage()
+                .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);;
+    private Image upScaled = new ImageIcon(up).getImage();
+    private Image down = new ImageIcon("src/main/resources/down.gif").getImage()
+                .getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
+    private Image downScaled = new ImageIcon(down).getImage();
+    //nanoseconds
+    private long eatGhostTimer;
+
+    private boolean canEatGhost;
     //start at row 24 col 14
     //constructor
-    public Player(int x, int y, ImageIcon image, Map map, String name) {
+    public Player(int x, int y, Map map, String name) {
         this.x = x;
         this.y = y;
-        this.image = image;
-        this.img = image.getImage().getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
+        //this.image = image;
+        //this.img = image.getImage().getScaledInstance(TileSize,TileSize,Image.SCALE_DEFAULT);
+        //initImages();
+        this.img = rightScaled;
         this.map = map;
         this.name = name;
         this.lives = 3;
         this.px = x * TileSize;
         this.py = y * TileSize;
+        this.canEatGhost = false;
+        //this.img = setImg(getRightScaled());
+        this.eatGhostTimer = 0L;
+    }
+
+    public long getEatGhostTimer() {
+        return eatGhostTimer;
+    }
+
+    public void setEatGhostTimer(long eatGhostTimer) {
+        this.eatGhostTimer = eatGhostTimer;
     }
 
     public void setDesiredDx(int direction){
@@ -70,6 +99,14 @@ public class Player {
         return score;
     }
 
+    public boolean isCanEatGhost() {
+        return canEatGhost;
+    }
+
+    public void setCanEatGhost(boolean canEatGhost) {
+        this.canEatGhost = canEatGhost;
+    }
+
     public void scorePoints(){
         //System.out.println(map.pellet(this.y, this.x));
         if (map.pellet(this.y, this.x)){
@@ -80,6 +117,18 @@ public class Player {
         else if (map.intersectionPellet(this.y, this.x)){
             map.setTile(this.y, this.x, "IE");
             score += 10;
+        }
+        else if (map.intersectionPowerPellet(this.y, this.x)){
+            map.setTile(this.y, this.x, "IE");
+            score+=50;
+            this.canEatGhost = true;
+            this.eatGhostTimer = System.nanoTime();
+        }
+        else if (map.powerPellet(this.y, this.x)){
+            map.setTile(this.y, this.x, "ES");
+            score += 50;
+            this.canEatGhost = true;
+            this.eatGhostTimer = System.nanoTime();
         }
     }
 
@@ -108,6 +157,10 @@ public class Player {
             if (px % TileSize == 0 && py % TileSize == 0){
                 this.dx = this.desiredDx;
                 this.dy = this.desiredDy;
+                if (this.dx == 1) this.img = rightScaled;
+                else if (this.dx == -1) this.img = leftScaled;
+                else if (this.dy == 1) this.img = downScaled;
+                else if (this.dy == -1) this.img = upScaled;
             }
 
         }

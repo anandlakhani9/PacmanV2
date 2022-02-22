@@ -20,7 +20,7 @@ class PlayerTest {
     @BeforeEach
     void createPlayer(){
         map = mock(Map.class);
-        player = new Player(14,24,rightPacman,map,"player");
+        player = new Player(14,24,map,"player");
     }
 
 
