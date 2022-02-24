@@ -35,6 +35,7 @@ public class Map {
     private Image vwImageScaled;
     private Image hwImage;
     private Image hwImageScaled;
+    private int dotCount = 0;
 
     //constructor for the map, reads in map as an array from the csv file containing the map layout
     public Map(int rows, int columns, String src) {
@@ -62,6 +63,7 @@ public class Map {
         this.src = src;
         this.mapArray = initMap(this.rows, this.columns, this.src);
         initImages();
+        countDots();
     }
 
 
@@ -112,6 +114,21 @@ public class Map {
         }
 
         return mapArray;
+    }
+
+    public void countDots(){
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                String tile = this.mapArray[i][j];
+                if (tile.equals("DD")
+                        || tile.equals("II")
+                        ||tile.equals("IP")
+                        || tile.equals("PP")){
+                    dotCount++;
+
+                }
+            }
+        }
     }
 
     //returns whether a tile is blocked
@@ -191,6 +208,14 @@ public class Map {
     }
     public String[][] getMapArray(){
         return this.mapArray;
+    }
+
+    public int getDotCount() {
+        return dotCount;
+    }
+
+    public void setDotCount(int dotCount) {
+        this.dotCount = dotCount;
     }
 
     //this method has not been unit tested as it has clear visual feedback on the screen when it works

@@ -5,7 +5,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class Main extends Canvas implements Runnable, KeyListener {
@@ -24,6 +27,8 @@ public class Main extends Canvas implements Runnable, KeyListener {
     private Thread thread;
     private Boolean running = false;
 
+    private Font font;
+
 
 
     private ImageIcon randGhostImage = new ImageIcon("src/main/resources/ghost.gif");
@@ -31,13 +36,15 @@ public class Main extends Canvas implements Runnable, KeyListener {
     private RandomGhost r2 = new RandomGhost(16,15,randGhostImage,map,"r2", player);
     private RandomGhost r3 = new RandomGhost(15,15,randGhostImage,map,"r3", player);
     private RandomGhost r4 = new RandomGhost(14,15,randGhostImage,map,"r4", player);
+    private JLabel endingMessage;
+    private boolean gameOver = false;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         new Main();
 
     }
 
-    public Main(){
+    public Main()  {
         //initGame();
         //deal with the game window
         frame = new JFrame("Pacman");
@@ -52,6 +59,13 @@ public class Main extends Canvas implements Runnable, KeyListener {
         frame.setVisible(true);
         frame.setFocusable(true);
         frame.addKeyListener(this);
+        /*String fName = "C:\\Users\\anand\\Documents\\Coding\\PacmanV2\\src\\main\\resources\\slkscr.ttf";
+        InputStream is = Main.class.getResourceAsStream(fName);
+        font = Font.createFont(Font.TRUETYPE_FONT, is);
+        font = font.deriveFont(30);*/
+
+        endingMessage = new JLabel();
+        endingMessage.setVisible(false);
         start();
     }
 
@@ -89,7 +103,40 @@ public class Main extends Canvas implements Runnable, KeyListener {
         //end adding graphics before here
         g.dispose();
         bs.show();
+    }
 
+    public void renderEnding(){
+        BufferStrategy bs = getBufferStrategy();
+        if (bs == null){
+            createBufferStrategy(3);
+            return;
+        }
+        Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0 , screenWidth, screenHeight);
+        g.setColor(Color.YELLOW);
+        g.setFont(g.getFont().deriveFont(Font.BOLD, 30));
+        if (map.getDotCount() == 0){
+            //endingMessage.setText("You win! You scored " + player.getScore() + " and have " + player.getLives() + " remaining!");
+            String message = "You win! You scored " + player.getScore() + " and have " + player.getLives() + " remaining!";
+            FontMetrics fm = g.getFontMetrics();
+            Rectangle2D stringBounds = fm.getStringBounds(message, g);
+            g.drawString(message,
+                    screenWidth/2 - (int) stringBounds.getWidth()/2,
+                    screenHeight/2 - (int) stringBounds.getHeight()/2);
+        }
+        else {
+            //endingMessage.setText("GAME OVER. You scored " + player.getScore());
+            //endingMessage.setText("You win! You scored " + player.getScore() + " and have " + player.getLives() + " remaining!");
+            String message = "GAME OVER. You scored " + player.getScore();
+            FontMetrics fm = g.getFontMetrics();
+            Rectangle2D stringBounds = fm.getStringBounds(message, g);
+            g.drawString(message,
+                    screenWidth/2 - (int) stringBounds.getWidth()/2,
+                    screenHeight/2 - (int) stringBounds.getHeight()/2);
+        }
+        g.dispose();
+        bs.show();
     }
 
     //start a new thread
@@ -118,7 +165,7 @@ public class Main extends Canvas implements Runnable, KeyListener {
         //final double rate =   250.0 / 1000000000.0 ;
         //as the TileSize depends on the screen size, the game speed should be consistent based on the screensize
         final double rate = 6*Map.TileSize / 1000000000.0 ;
-        System.out.println(rate);
+        //System.out.println(rate);
 
         double delta = 0;
 
@@ -130,6 +177,11 @@ public class Main extends Canvas implements Runnable, KeyListener {
 
         //Game Loop!
         while (running){
+            if (map.getDotCount() == 0){
+                //running = false;
+                gameOver = true;
+                break;
+            }
             long now = System.nanoTime();
             //delta will equal approx 1 every 60 seconds
             delta += (now - lastTime) * rate;
@@ -155,6 +207,11 @@ public class Main extends Canvas implements Runnable, KeyListener {
                 fps = 0;
                 updates = 0;
             }
+        }
+        while(gameOver){
+            frame.setTitle("GAME OVER");
+            //System.out.println("finished");
+            renderEnding();
         }
         stop();
     }
@@ -195,7 +252,10 @@ public class Main extends Canvas implements Runnable, KeyListener {
             r2.resetPos(16,15);
             r3.resetPos(15,15);
             r4.resetPos(14,15);
-            if (player.getLives() == 0) this.running = false;
+            if (player.getLives() == 0) {
+                this.gameOver = true;
+                this.running = false;
+            }
         }
         rand.populateAllowedMoves();
         rand.setDirection(rand.getMove());

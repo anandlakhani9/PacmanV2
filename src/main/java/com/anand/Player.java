@@ -112,23 +112,27 @@ public class Player {
         if (map.pellet(this.y, this.x)){
             //System.out.println("point");
             map.setTile(this.y, this.x, "ES");
+            map.setDotCount(map.getDotCount() - 1);
             score += 10;
         }
         else if (map.intersectionPellet(this.y, this.x)){
             map.setTile(this.y, this.x, "IE");
             score += 10;
+            map.setDotCount(map.getDotCount() - 1);
         }
         else if (map.intersectionPowerPellet(this.y, this.x)){
             map.setTile(this.y, this.x, "IE");
             score+=50;
             this.canEatGhost = true;
             this.eatGhostTimer = System.nanoTime();
+            map.setDotCount(map.getDotCount() - 1);
         }
         else if (map.powerPellet(this.y, this.x)){
             map.setTile(this.y, this.x, "ES");
             score += 50;
             this.canEatGhost = true;
             this.eatGhostTimer = System.nanoTime();
+            map.setDotCount(map.getDotCount() - 1);
         }
     }
 
